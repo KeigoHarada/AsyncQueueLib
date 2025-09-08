@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncQueueLib", "AsyncQueue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncQueueLib.Tests", "AsyncQueueLib.Tests\AsyncQueueLib.Tests.csproj", "{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncQueueDemo", "AsyncQueueDemo\AsyncQueueDemo.csproj", "{68642BFD-A017-4EAC-80FB-0B351B4BF50A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68642BFD-A017-4EAC-80FB-0B351B4BF50A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68642BFD-A017-4EAC-80FB-0B351B4BF50A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68642BFD-A017-4EAC-80FB-0B351B4BF50A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68642BFD-A017-4EAC-80FB-0B351B4BF50A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
