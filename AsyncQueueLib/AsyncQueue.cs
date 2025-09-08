@@ -1,5 +1,5 @@
 ﻿namespace AsyncQueueLib;
-public class Class1
+public class AsyncQueue
 {
 
 }

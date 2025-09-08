@@ -5,6 +5,8 @@ VisualStudioVersion = 25.0.1706.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncQueueLib", "AsyncQueueLib\AsyncQueueLib.csproj", "{1D4D3B14-2460-4E31-95FD-0B375DEF27A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncQueueLib.Tests", "AsyncQueueLib.Tests\AsyncQueueLib.Tests.csproj", "{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1D4D3B14-2460-4E31-95FD-0B375DEF27A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D4D3B14-2460-4E31-95FD-0B375DEF27A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D4D3B14-2460-4E31-95FD-0B375DEF27A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADAB1A5D-C8AF-4D4A-9566-3A6CD9222CEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
