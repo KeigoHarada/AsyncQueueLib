@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "E7lQGFZ9e4j62IZ9DTmpUzd4U/ElH9lHJhzjqHWAZGVaOlAsKzQrIHAkljDwIGGqZSHAEkjjBlqgt48G5DlAjw==",
+  "dgSpecHash": "M82QXEkI/Qc=",
   "success": true,
   "projectFilePath": "/Users/haradakeigo/Projects/AsyncQueueLib/AsyncQueueDemo/AsyncQueueDemo.csproj",
   "expectedPackageFiles": [
-    "/Users/haradakeigo/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.31/microsoft.aspnetcore.app.ref.6.0.31.nupkg.sha512",
-    "/Users/haradakeigo/.nuget/packages/microsoft.netcore.app.host.osx-arm64/6.0.31/microsoft.netcore.app.host.osx-arm64.6.0.31.nupkg.sha512",
-    "/Users/haradakeigo/.nuget/packages/microsoft.netcore.app.ref/6.0.31/microsoft.netcore.app.ref.6.0.31.nupkg.sha512"
+    "/Users/haradakeigo/.nuget/packages/microsoft.netcore.app.ref/6.0.26/microsoft.netcore.app.ref.6.0.26.nupkg.sha512",
+    "/Users/haradakeigo/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.26/microsoft.aspnetcore.app.ref.6.0.26.nupkg.sha512",
+    "/Users/haradakeigo/.nuget/packages/microsoft.netcore.app.host.osx-arm64/6.0.26/microsoft.netcore.app.host.osx-arm64.6.0.26.nupkg.sha512"
   ],
   "logs": []
 }

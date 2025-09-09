@@ -2,17 +2,16 @@
 using System.Threading.Tasks;
 using AsyncQueueLib;
 
-namespace AsyncQueueDemo
-{
+namespace AsyncQueueDemo;
+
     /// <summary>
     /// AsyncQueueの使用例
     /// </summary>
-    public class Program
+    public static class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
             Console.WriteLine("=== AsyncQueue デモ ===");
-
             var queue = new AsyncQueue<int>();
 
             // Producer（生産者）タスク
@@ -44,4 +43,4 @@ namespace AsyncQueueDemo
             Console.WriteLine($"最終的なキューサイズ: {queue.Count}");
         }
     }
-}
+
