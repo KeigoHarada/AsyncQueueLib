@@ -1,0 +1,28 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  nuget:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore AsyncQueueLib/AsyncQueueLib.csproj
+
+      - name: Pack
+        run: dotnet pack AsyncQueueLib/AsyncQueueLib.csproj -c Release -p:ContinuousIntegrationBuild=true
+
+      - name: Publish to NuGet.org
+        run: dotnet nuget push AsyncQueueLib/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+
