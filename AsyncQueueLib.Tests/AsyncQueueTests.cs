@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AsyncQueueLib;
 using Xunit;
 
@@ -73,6 +75,61 @@ namespace AsyncQueueLib.Tests
             Assert.Equal(1, item1);
             Assert.Equal(2, item2);
             Assert.Equal(3, item3);
+            Assert.True(queue.IsEmpty);
+        }
+
+        [Fact]
+        public async Task DequeueAsync_ShouldCancelWhenTokenIsCancelled()
+        {
+            // Arrange
+            var queue = new AsyncQueue<int>();
+            using var cts = new CancellationTokenSource();
+
+            // Act
+            var dequeueTask = queue.DequeueAsync(cts.Token);
+            cts.Cancel();
+
+            // Assert
+            await Assert.ThrowsAsync<TaskCanceledException>(() => dequeueTask);
+        }
+
+        [Fact]
+        public async Task EnqueueAsync_ShouldCancelWhenTokenIsCancelled()
+        {
+            // Arrange
+            var queue = new AsyncQueue<int>();
+            using var cts = new CancellationTokenSource();
+            cts.Cancel();
+
+            // Act & Assert
+            await Assert.ThrowsAsync<TaskCanceledException>(() =>
+                queue.EnqueueAsync(42, cts.Token)
+            );
+        }
+
+        [Fact]
+        public async Task ConcurrentOperations_ShouldWork()
+        {
+            // Arrange
+            var queue = new AsyncQueue<int>();
+            const int itemCount = 100;
+
+            // Act
+            var enqueueTasks = new Task[itemCount];
+            var dequeueTasks = new Task<int>[itemCount];
+
+            for (int i = 0; i < itemCount; i++)
+            {
+                int item = i;
+                enqueueTasks[i] = Task.Run(async () => await queue.EnqueueAsync(item));
+                dequeueTasks[i] = Task.Run(async () => await queue.DequeueAsync());
+            }
+
+            await Task.WhenAll(enqueueTasks);
+            var results = await Task.WhenAll(dequeueTasks);
+
+            // Assert
+            Assert.Equal(itemCount, results.Length);
             Assert.True(queue.IsEmpty);
         }
     }
