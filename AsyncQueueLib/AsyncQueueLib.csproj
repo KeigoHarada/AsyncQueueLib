@@ -6,9 +6,9 @@
     <!-- NuGet metadata -->
     <PackageId>AsyncQueueLib</PackageId>
     <Version>1.0.0</Version>
-    <Authors>your-name</Authors>
+    <Authors>KeigoHarada</Authors>
     <Description>軽量な非同期Producer/Consumer用キュー。待機者への直接ハンドオフと安全なキャンセルを提供。</Description>
-    <RepositoryUrl>https://github.com/your/repo</RepositoryUrl>
+    <RepositoryUrl>https://github.com/KeigoHarada/AsyncQueueLib</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>queue;async;producer-consumer</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
