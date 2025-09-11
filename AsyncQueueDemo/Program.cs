@@ -1,46 +1,54 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AsyncQueueLib;
 
-namespace AsyncQueueDemo;
-
-    /// <summary>
-    /// AsyncQueueの使用例
-    /// </summary>
-    public static class Program
+internal class Program
+{
+    public static async Task Main(string[] args)
     {
-        public static async Task Main()
+        Console.WriteLine("=== 最小デモ: Producer/Consumer ===");
+
+        var queue = new AsyncQueue<string>();
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+
+        _ = Task.Run(async () =>
         {
-            Console.WriteLine("=== AsyncQueue デモ ===");
-            var queue = new AsyncQueue<int>();
-
-            // Producer（生産者）タスク
-            var producer = Task.Run(async () =>
+            var i = 0;
+            while (!cts.IsCancellationRequested)
             {
-                for (int i = 1; i <= 5; i++)
-                {
-                    await queue.EnqueueAsync(i);
-                    Console.WriteLine($"📤 生産: {i}");
-                    await Task.Delay(500); // 生産の遅延
-                }
-            });
+                await queue.EnqueueAsync($"msg-{++i}");
+                await Task.Delay(50);
+            }
+        });
 
-            // Consumer（消費者）タスク
-            var consumer = Task.Run(async () =>
+        var c1 = Task.Run(async () =>
+        {
+            try
             {
-                for (int i = 0; i < 5; i++)
+                while (true)
                 {
-                    var item = await queue.DequeueAsync();
-                    Console.WriteLine($"📥 消費: {item}");
-                    await Task.Delay(300); // 消費の遅延
+                    var msg = await queue.DequeueAsync(cts.Token);
+                    Console.WriteLine($"C1: {msg}");
                 }
-            });
+            }
+            catch (OperationCanceledException) { }
+        });
 
-            // 両方のタスクが完了するまで待機
-            await Task.WhenAll(producer, consumer);
+        var c2 = Task.Run(async () =>
+        {
+            try
+            {
+                while (true)
+                {
+                    var msg = await queue.DequeueAsync(cts.Token);
+                    Console.WriteLine($"C2: {msg}");
+                }
+            }
+            catch (OperationCanceledException) { }
+        });
 
-            Console.WriteLine("✅ デモ完了！");
-            Console.WriteLine($"最終的なキューサイズ: {queue.Count}");
-        }
+        await Task.WhenAll(c1, c2);
+        Console.WriteLine("✅ 完了");
     }
-
+}
