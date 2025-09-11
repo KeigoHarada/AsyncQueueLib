@@ -13,7 +13,7 @@ namespace AsyncQueueLib
     public class AsyncQueue<T> : IAsyncQueue<T>
     {
         private readonly ConcurrentQueue<T> _queue = new();
-        private readonly Queue<TaskCompletionSource<T>> _waitingConsumers = new();
+        private readonly ConcurrentQueue<TaskCompletionSource<T>> _waitingConsumers = new();
         private readonly object _lock = new();
 
         /// <summary>
@@ -28,15 +28,17 @@ namespace AsyncQueueLib
 
             lock (_lock)
             {
-                // 待機中のConsumerがいる場合は直接渡す
-                if (_waitingConsumers.Count > 0)
+                // 待機中のConsumerがいれば、キャンセル済みをスキップしつつ直接ハンドオフ
+                while (_waitingConsumers.TryDequeue(out var tcs))
                 {
-                    var tcs = _waitingConsumers.Dequeue();
-                    tcs.SetResult(item);
-                    return Task.CompletedTask;
+                    if (tcs.TrySetResult(item))
+                    {
+                        return Task.CompletedTask;
+                    }
+                    // キャンセル/完了済みは捨てて次へ
                 }
 
-                // 待機中のConsumerがいない場合はキューに追加
+                // 待機者がいなければキューに積む
                 _queue.Enqueue(item);
                 return Task.CompletedTask;
             }
@@ -64,20 +66,22 @@ namespace AsyncQueueLib
                 var tcs = new TaskCompletionSource<T>();
                 _waitingConsumers.Enqueue(tcs);
 
-                // キャンセレーション登録
+                // キャンセレーション登録（待機列は触らず、TCSのみ遷移）
                 if (cancellationToken.CanBeCanceled)
                 {
-                    cancellationToken.Register(() =>
+                    var registration = cancellationToken.Register(() =>
                     {
                         lock (_lock)
                         {
-                            if (_waitingConsumers.Contains(tcs))
-                            {
-                                _waitingConsumers.Clear(); // 簡易実装
-                                tcs.SetCanceled(cancellationToken);
-                            }
+                            tcs.TrySetCanceled(cancellationToken);
                         }
                     });
+
+                    // タスク完了時に登録を解除
+                    tcs.Task.ContinueWith(
+                        _ => registration.Dispose(),
+                        TaskContinuationOptions.ExecuteSynchronously
+                    );
                 }
 
                 return tcs.Task;
